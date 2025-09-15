@@ -1,15 +1,19 @@
-# websocket_server.py
 import asyncio
 import websockets
 
 connected_clients = set()
 
-async def handler(websocket):
+async def handler(websocket, path):
     connected_clients.add(websocket)
+    print(f"[Server] New client connected at path: {path}")
     try:
         async for message in websocket:
-            print(f"Received: {message}")
+            print(f"[Server] Received from client: {message}")
             await websocket.send(f"Echo: {message}")
+    except websockets.ConnectionClosedOK:
+        print(f"[Server] Client disconnected gracefully.")
+    except Exception as e:
+        print(f"[Server] Exception: {e}")
     finally:
         connected_clients.remove(websocket)
 
