@@ -1,36 +1,23 @@
-import asyncio
-import websockets
+import socket
 
-clients = set()
+s_socket = socket.socket()
+s_socket.bind(('localhost', 1000))
+s_socket.listen(1)
 
-async def handle_client(websocket):  # ONLY websocket argument
-    print("New client connected")
-    clients.add(websocket)
-    try:
-        async for message in websocket:
-            print(f"[Client sent]: {message}")
+print("Server is listening...")
 
-            # Send back a proper string
-            response = f"Server received: {message}"
-            await websocket.send(response)
+conn, addr = s_socket.accept()
+print("Connected to", addr)
 
-    except websockets.exceptions.ConnectionClosedOK:
-        print("Client disconnected normally.")
+while True:
+    # Receive message from client
+    data = conn.recv(1024).decode()
+    if not data:
+        break
+    print(f"Client: {data}")
 
-    except websockets.exceptions.ConnectionClosedError as e:
-        print(f"Connection closed with error: {e}")
+    # Server sends custom message
+    msg = input("You (Server): ")
+    conn.send(msg.encode())
 
-    except Exception as e:
-        print(f"Unexpected server error: {repr(e)}")
-
-    finally:
-        clients.remove(websocket)
-        print("Client removed.")
-
-async def main():
-    server = await websockets.serve(handle_client, "localhost", 8765)
-    print("Server is running at ws://localhost:8765")
-    await server.wait_closed()
-
-if __name__ == "__main__":
-    asyncio.run(main())
+conn.close()

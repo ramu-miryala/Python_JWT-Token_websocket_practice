@@ -1,24 +1,13 @@
-import asyncio
-import websockets
+import socket
 
-async def chat():
-    uri = "ws://localhost:8765"
-    async with websockets.connect(uri) as websocket:
-        print("Connected to server.")
+c_socket = socket.socket()
+c_socket.connect(('localhost', 1000))
 
-        while True:
-            message = input("You: ")
-            await websocket.send(message)
+while True:
+    # Client sends custom message
+    msg = input("You (Client): ")
+    c_socket.send(msg.encode())
 
-            try:
-                response = await websocket.recv()
-                print(f"[Server]: {response}")
-            except websockets.exceptions.ConnectionClosedOK:
-                print("Server closed connection.")
-                break
-            except websockets.exceptions.ConnectionClosedError as e:
-                print(f"Connection closed with error: {e}")
-                break
-
-if __name__ == "__main__":
-    asyncio.run(chat())
+    # Receive response from server
+    res = c_socket.recv(1024).decode()
+    print(f"Server: {res}")
