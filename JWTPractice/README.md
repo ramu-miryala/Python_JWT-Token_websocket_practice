@@ -1,6 +1,6 @@
- Features
+## Features
 
-User registration and login
+# User registration and login
 
 Password hashing with werkzeug.security
 
@@ -28,8 +28,8 @@ Password hashing (Werkzeug)
 
 Symmetric encryption (cryptography.fernet)
 
- Setup Instructions
-1.  Clone & Install Dependencies
+## Setup Instructions
+# 1.  Clone & Install Dependencies
 git clone https://github.com/your-repo/Jwt_Password_EncryptDecrypt.git
 cd Jwt_Password_EncryptDecrypt.py
 pip install -r requirements.txt
@@ -37,7 +37,7 @@ pip install -r requirements.txt
 
 Note: Make sure PostgreSQL is running and your connection string is valid.
 
-2.  Set Environment Variables (Recommended)
+# 2.  Set Environment Variables (Recommended)
 
 Create a .env file or export these variables in your shell:
 
