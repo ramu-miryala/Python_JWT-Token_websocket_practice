@@ -70,13 +70,3 @@ Only one client can connect (because listen(1)).
 It’s blocking (server waits for input before responding).
 
 No handling of disconnects/crashes.
-
-# Next Steps (if you want to improve)
-
-Allow multiple clients using threading or asyncio.
-
-Add exit command (if msg.lower() == "exit": break).
-
-Implement a simple chatroom with multiple participants.
-
-Add a GUI (using Tkinter or PyQt) for a chat app feel.
